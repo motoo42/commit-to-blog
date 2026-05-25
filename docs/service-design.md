@@ -98,6 +98,9 @@ src/
     RepositorySelector.tsx
     SavedPostCard.tsx
     SavedPostList.tsx
+  hooks/
+    useCommitSelection.ts
+    useRequestState.ts
   pages/
     CreateBlogPage.tsx
     SavedPostsPage.tsx
@@ -164,6 +167,8 @@ GitHub token과 LLM API key는 Express 서버에서만 사용한다. React는 �
 ## React Component Responsibilities
 
 - `CreateBlogPage`: 블로그 생성 흐름의 상태를 조율한다.
+- `useRequestState`: API 요청 상태와 오류 메시지를 요청 단위로 관리한다.
+- `useCommitSelection`: commit 선택/해제와 선택된 commit 계산을 담당한다.
 - `RepositorySelector`: Repository 목록, 선택 상태, 로딩/빈/오류 상태를 표시한다.
 - `BranchSelector`: 선택된 Repository에 맞는 Branch 목록을 표시한다.
 - `CommitSelector`: Commit 목록과 선택/해제 상태를 관리한다.
