@@ -16,7 +16,20 @@ GitHub 활동 데이터를 바탕으로 개발 블로그 초안을 생성하고,
 - `docs/saved-posts.md`: 저장된 포스트 API, 카드 UI, 재편집/발행 흐름
 - `docs/ai-workflow.md`: 체크리스트 기반 AI 작업 루프와 커밋 규칙
 - `docs/verification-report.md`: 검증 결과, smoke test, 남은 제약사항
+- `docs/week-12-workflow.md`: 12주차 미션의 이슈 단위 작업 계획과 AI workflow
+- `docs/analysis-design-gate.md`: 구현 전 분석/설계 누락을 줄이기 위한 점검 게이트
+- `docs/skill-hook-application.md`: 12주차 Skill 활용과 custom hook 적용 근거
+- `docs/architecture-map.md`: FE, BE, API 호출, 저장소 역할을 설명하는 서비스 구조 문서
+- `docs/week-12-verification.md`: 12주차 검증 결과와 workflow 회고
 - `skills/`: 이 프로젝트에서 반복 사용할 AI 작업 스킬
+
+## Week 12 Focus
+
+12주차 미션은 기능 추가보다 AI 개발 workflow와 서비스 구조 설명을 중요하게 본다.
+
+- `src/hooks/useRequestState.ts`: API 요청 상태와 오류 메시지를 관리하는 custom hook
+- `src/hooks/useCommitSelection.ts`: commit 선택 상태를 관리하는 custom hook
+- `.github/pull_request_template.md`: PR에서 AI workflow와 서비스 구조를 설명하기 위한 템플릿
 
 ## Development
 
