@@ -1,9 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { BlogEditor } from "../components/BlogEditor";
 import { BranchSelector } from "../components/BranchSelector";
 import { CommitSelector } from "../components/CommitSelector";
 import { RepositorySelector } from "../components/RepositorySelector";
 import { SavedPostList } from "../components/SavedPostList";
+import { useCommitSelection } from "../hooks/useCommitSelection";
+import { useRequestState, type RequestStatus } from "../hooks/useRequestState";
 import { ApiError } from "../services/apiClient";
 import { fetchBranches, fetchCommits, fetchRepositories } from "../services/githubApi";
 import { createDraft } from "../services/llmApi";
@@ -12,7 +14,6 @@ import type { BlogPost, EditablePost, SavePostInput } from "../types/blog";
 import type { Branch, CommitSummary, Repository } from "../types/github";
 
 type RequestKey = "repositories" | "branches" | "commits" | "draft" | "posts" | "save" | "publish";
-type RequestStatus = "idle" | "loading" | "success" | "error";
 
 type PostSource = {
   repositoryFullName: string;
@@ -24,6 +25,16 @@ const emptyPost: EditablePost = {
   title: "",
   summary: "",
   content: "",
+};
+
+const initialRequestStatuses: Record<RequestKey, RequestStatus> = {
+  repositories: "idle",
+  branches: "idle",
+  commits: "idle",
+  draft: "idle",
+  posts: "idle",
+  save: "idle",
+  publish: "idle",
 };
 
 const formatError = (error: unknown) => {
@@ -44,37 +55,17 @@ export const CreateBlogPage = () => {
   const [commits, setCommits] = useState<CommitSummary[]>([]);
   const [selectedRepository, setSelectedRepository] = useState<Repository | null>(null);
   const [selectedBranch, setSelectedBranch] = useState<Branch | null>(null);
-  const [selectedCommitShas, setSelectedCommitShas] = useState<string[]>([]);
   const [editingPost, setEditingPost] = useState<EditablePost>(emptyPost);
   const [activePostId, setActivePostId] = useState<string | null>(null);
   const [activePostSource, setActivePostSource] = useState<PostSource | null>(null);
   const [savedPosts, setSavedPosts] = useState<BlogPost[]>([]);
-  const [statuses, setStatuses] = useState<Record<RequestKey, RequestStatus>>({
-    repositories: "idle",
-    branches: "idle",
-    commits: "idle",
-    draft: "idle",
-    posts: "idle",
-    save: "idle",
-    publish: "idle",
-  });
-  const [errors, setErrors] = useState<Partial<Record<RequestKey, string>>>({});
-
-  const setStatus = (key: RequestKey, status: RequestStatus) => {
-    setStatuses((current) => ({ ...current, [key]: status }));
-  };
-
-  const setError = (key: RequestKey, message: string | null) => {
-    setErrors((current) => {
-      const next = { ...current };
-      if (message) {
-        next[key] = message;
-      } else {
-        delete next[key];
-      }
-      return next;
-    });
-  };
+  const { errors, setError, setStatus, statuses } = useRequestState<RequestKey>(initialRequestStatuses);
+  const {
+    clearSelectedCommits,
+    selectedCommits,
+    selectedCommitShas,
+    toggleCommit,
+  } = useCommitSelection(commits);
 
   const loadRepositories = async () => {
     setStatus("repositories", "loading");
@@ -111,7 +102,7 @@ export const CreateBlogPage = () => {
     setSelectedBranch(null);
     setBranches([]);
     setCommits([]);
-    setSelectedCommitShas([]);
+    clearSelectedCommits();
     setEditingPost(emptyPost);
     setActivePostId(null);
     setActivePostSource(null);
@@ -120,18 +111,10 @@ export const CreateBlogPage = () => {
   const handleSelectBranch = (branch: Branch) => {
     setSelectedBranch(branch);
     setCommits([]);
-    setSelectedCommitShas([]);
+    clearSelectedCommits();
     setEditingPost(emptyPost);
     setActivePostId(null);
     setActivePostSource(null);
-  };
-
-  const toggleCommit = (sha: string) => {
-    setSelectedCommitShas((current) => (
-      current.includes(sha)
-        ? current.filter((selectedSha) => selectedSha !== sha)
-        : [...current, sha]
-    ));
   };
 
   const handleCreateDraft = async () => {
@@ -318,11 +301,6 @@ export const CreateBlogPage = () => {
 
     void loadCommits();
   }, [selectedRepository, selectedBranch]);
-
-  const selectedCommits = useMemo(
-    () => commits.filter((commit) => selectedCommitShas.includes(commit.sha)),
-    [commits, selectedCommitShas],
-  );
 
   const canGenerate = Boolean(selectedRepository && selectedBranch && selectedCommitShas.length > 0 && statuses.draft !== "loading");
   const isDraftReady = Boolean(editingPost.title || editingPost.summary || editingPost.content);

@@ -37,6 +37,18 @@ Without this skill, implementation or skill-writing work can look complete while
 - Planning and verification are documented when the mission asks for them.
 - Claims in the final answer match what was actually implemented or checked.
 
+## Week 12 Checks
+
+- `Mission.md` includes the 12 week mission goal: complete an AI-assisted development workflow.
+- `checklist.md` separates week 12 work into small issue-like units.
+- `docs/analysis-design-gate.md` exists or an equivalent analysis/design checklist is documented.
+- The analysis/design gate checks problem definition, user flow, module ownership, data/API shape, security boundary, and verification plan.
+- At least one project skill is used or improved, and the final report names it.
+- At least one hook concept is applied in code or workflow, and the final report names where.
+- The PR description can explain the workflow steps from analysis to verification.
+- The service architecture is explainable as frontend, backend, external API calls, and storage responsibilities.
+- Workflow problems and improvements are recorded instead of hidden.
+
 ## Default Checks
 
 - Run `npm.cmd run typecheck` when TypeScript files changed.
