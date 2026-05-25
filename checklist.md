@@ -3,6 +3,82 @@
 상세 요구사항은 `Mission.md`를 기준으로 확인한다.  
 이 파일은 실제 진행 상황을 빠르게 확인하기 위한 7개 단위 작업 체크리스트다.
 
+## 12주차 추가 미션 체크리스트
+
+12주차 PDF는 기능을 많이 추가하기보다 AI 개발 workflow 완성, Skill/hook 적용, 서비스 구조 설명을 요구한다.
+
+### 1. 12주차 미션 분석과 작업 이슈 분리
+
+- [x] 12주차 PDF에서 학습 목표와 프로그래밍 요구사항을 추출한다.
+- [x] `Mission.md`에 12주차 추가 요구사항을 반영한다.
+- [x] 이번 주 작업을 작은 이슈 단위로 나눈다.
+- [x] 기능 완성보다 설계와 workflow 정리에 집중한다는 기준을 문서화한다.
+
+완료 근거:
+
+- `Mission.md`
+- `docs/week-12-workflow.md`
+
+### 2. 나만의 AI 개발 workflow 정립
+
+- [x] 분석, 설계, 구현, 검증, 회고 순서의 반복 workflow를 정리한다.
+- [x] 분석/설계를 꼼꼼하게 하기 위한 게이트 문서를 만든다.
+- [x] workflow에서 발견한 문제와 조정 내용을 기록한다.
+- [x] PR에서 workflow 단계와 절차를 설명할 수 있도록 정리한다.
+
+완료 근거:
+
+- `docs/week-12-workflow.md`
+- `docs/analysis-design-gate.md`
+- `.github/pull_request_template.md`
+
+### 3. 서비스 구조 설명 문서화
+
+- [x] Frontend, Backend, API 호출, 저장소의 역할을 구분한다.
+- [x] Repository -> Branch -> Commit -> Draft -> Post 데이터 흐름을 설명한다.
+- [x] GitHub token과 OpenAI API key가 서버에만 머무르는 보안 경계를 설명한다.
+
+완료 근거:
+
+- `docs/architecture-map.md`
+- `docs/service-design.md`
+
+### 4. Skill과 hook 적용
+
+- [x] 12주차 검증 기준을 프로젝트 skill에 반영한다.
+- [x] 활용한 skill과 적용한 hook을 별도 문서로 설명한다.
+- [x] React custom hook을 1개 이상 구현한다.
+- [x] 기존 page 컴포넌트에서 hook을 실제로 사용한다.
+
+완료 근거:
+
+- `skills/mission-verifier.md`
+- `docs/skill-hook-application.md`
+- `src/hooks/useRequestState.ts`
+- `src/hooks/useCommitSelection.ts`
+- `src/pages/CreateBlogPage.tsx`
+
+### 5. PR 제출 준비 문서 보강
+
+- [x] PR 템플릿에 완료 작업, AI workflow, 서비스 구조, 막혔던 점, 새로 알게 된 점, 개선점을 작성할 수 있게 한다.
+- [x] README에서 12주차 문서 위치를 찾을 수 있게 한다.
+
+완료 근거:
+
+- `.github/pull_request_template.md`
+- `README.md`
+
+### 6. 검증과 회고 기록
+
+- [x] `npm.cmd run typecheck`를 실행한다.
+- [x] `npm.cmd run build`를 실행한다.
+- [x] secret이 코드에 노출되지 않았는지 확인한다.
+- [x] 검증 결과와 남은 제약사항을 문서화한다.
+
+완료 근거:
+
+- `docs/week-12-verification.md`
+
 ## 1. 미션 분석과 주차별 계획
 
 - [x] `Mission.md`를 읽고 이번 미션의 핵심 목표를 다시 확인한다.
